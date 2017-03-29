@@ -1,0 +1,31 @@
+[nonterminal]
+	S'
+	S
+	L
+	R
+	B
+[terminal]
+	=
+	*
+	i
+	#
+[start]
+	S'
+[production]
+	S' =>
+		S ;
+
+	S =>
+		L = R ;
+
+	S =>
+		R ;
+
+	L =>
+		* R ;
+
+	L =>
+		i ;
+
+	R =>
+		L ;
