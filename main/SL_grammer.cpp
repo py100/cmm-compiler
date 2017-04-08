@@ -33,6 +33,10 @@ struct Exp{
 			return a.left < b.left;
 	}
 
+	friend bool operator == (const Exp&a, const Exp& b) {
+		return a.left == b.left && a.right == b.right;
+	}
+
 	void show() {
 		printf("\n%d => ", left);
 		for (int i = 0; i < right.size(); i++) {

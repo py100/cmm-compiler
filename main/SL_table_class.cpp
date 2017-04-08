@@ -6,9 +6,23 @@ using namespace std;
 #ifndef SL_TABLE_CLASS_INCLUDE
 #define SL_TABLE_CLASS_INCLUDE
 
+struct triple {
+	int a, b, c;
+	triple(int a, int b, int c):a(a),b(b), c(c){}
+	friend bool operator < (const triple& ta, const triple& tb) {
+		if (ta.a == tb.a) {
+			if (ta.b == tb.b) {
+				return ta.c < tb.c;
+			}
+			return ta.b < tb.b;
+		}
+		return ta.a < tb.b;
+	}
+};
 
 struct State{
 	int state_id;
+	int transitor;
 	set< Exp > exps;
 	vector<int> edges;
 	State(){}
@@ -139,6 +153,7 @@ struct State{
 			}
 			if (tmp_state.exps.size()) {
 				// tmp_state.show();
+				tmp_state.transitor = symbol;
 				ret.push_back(tmp_state);
 			}
 		}
@@ -153,6 +168,7 @@ struct State{
 			}
 			if (tmp_state.exps.size()) {
 				// tmp_state.show();
+				tmp_state.transitor = symbol;
 				ret.push_back(tmp_state);
 			}
 		}

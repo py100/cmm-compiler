@@ -3,7 +3,6 @@
 	S
 	L
 	R
-	B
 [terminal]
 	=
 	*
