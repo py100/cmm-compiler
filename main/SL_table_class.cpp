@@ -28,7 +28,6 @@ struct State{
 		printf("\n*******************\n");
 	}
 
-
 	friend bool operator < (const State&a, const State& b) {
 		return a.exps < b.exps;
 	}
@@ -46,9 +45,11 @@ struct State{
 
 	vector<State> make_closure(SL_grammer& grammer) {
 
+		/*
 		printf("\n<<<<<< begin state >>>>>>>\n");
 		show();
 		printf("\n<<<<<< <<<<< >>>>> >>>>>>>\n");
+		*/
 
 		vector<Exp> &allexps = grammer.exps;
 		set<int> &terminals = grammer.terminals;
@@ -88,7 +89,7 @@ struct State{
 				else 
 					beta = -1;
 
-				printf("A:%d\nbeta:%d\nB:%d\na:%d\n", A,beta, B, a);
+				// printf("A:%d\nbeta:%d\nB:%d\na:%d\n", A,beta, B, a);
 
 				set<int> fset;
 
@@ -97,10 +98,12 @@ struct State{
 				}
 				else
 					grammer.g_first(fset, beta);
+				/*
 				for (auto ttt : fset) {
 					printf("%d, ", ttt);
 				}
 				printf("\n");
+				*/
 				for (auto b: fset) {
 					for (auto new_exp : allexps) {
 						if (new_exp.left == B) {
@@ -111,37 +114,50 @@ struct State{
 				}
 			}
 			for (auto new_exp : tmp) if(!exps.count(new_exp)) {
-				cout << "new exp" << endl;
-				new_exp.show();
+				// cout << "new exp" << endl;
+				// new_exp.show();
 				exps.insert(new_exp);
 			}
 			tmp.clear();
 		}
 
-
+		/*
 		printf("\n>>>>>> closure state <<<<<<\n");
 		show();
 		printf("\n>>>>>> >>>>> <<<<< <<<<<<<<n");
+		*/
 
-		printf("\n#### return state ####\n");
+		// printf("\n#### return state ####\n");
 
 		for (auto symbol : nonterminals) {
 			State tmp_state;
-
 			for (auto exp : exps) {
 				if (exp.right.size() > exp.pos && exp.right[exp.pos] == symbol) {
 					exp.adjust(exp.pos+1, exp.follow_terminal);
 					tmp_state.insert_exp(exp, exp.follow_terminal);
 				}
 			}
-
 			if (tmp_state.exps.size()) {
-				tmp_state.show();
+				// tmp_state.show();
 				ret.push_back(tmp_state);
 			}
-
 		}
-		printf("\n#### ########### ####\n");
+
+		for (auto symbol : terminals) {
+			State tmp_state;
+			for (auto exp : exps) {
+				if (exp.right.size() > exp.pos && exp.right[exp.pos] == symbol) {
+					exp.adjust(exp.pos+1, exp.follow_terminal);
+					tmp_state.insert_exp(exp, exp.follow_terminal);
+				}
+			}
+			if (tmp_state.exps.size()) {
+				// tmp_state.show();
+				ret.push_back(tmp_state);
+			}
+		}
+
+		// printf("\n#### ########### ####\n");
 
 		return ret;
 	}

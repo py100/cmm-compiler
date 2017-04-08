@@ -28,7 +28,7 @@ public:
 		// then connect all the edges 
 
 		while(!unclosure_state.empty()) {
-			printf("tot_state : %d\n", tot_state);
+			// printf("tot_state : %d\n", tot_state);
 			State tmp = unclosure_state.front();
 			unclosure_state.pop_front();
 			vector<State> new_state = tmp.make_closure(grammer);
@@ -38,13 +38,14 @@ public:
 					unclosure_state.push_back(new_state[i]);
 				tmp.state_id = tot_state;
 				closure_state[tmp] = tot_state++;
+				cout << "\n++++++ new state found! ++++++" <<endl;
 				tmp.show();
 			}
 
 		}
 
-		printf("tot_state : %d\n", tot_state);
 
+		// printf("tot_state : %d\n", tot_state);
 		for (auto exp : start_state.exps) {
 			exp.show();
 		}
@@ -59,7 +60,6 @@ int main() {
 	grammer.read_grammer("../grammer/test_grammer_1.txt");
 	printf("!!!\n");
 	grammer.show();
-
 
 	generator.generate(grammer);
 	printf("!!!\n");
