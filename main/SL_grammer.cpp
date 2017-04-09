@@ -111,10 +111,11 @@ public:
 
 	void read_grammer(const char *file) {
 		printf("%s\n", file);
-		freopen(file, "r", stdin);
+		ifstream in(file);
+		//freopen(file, "r", stdin);
 		int label_id = -1;
 		string in_str;
-		while(cin >> in_str) {
+		while(in >> in_str) {
 			printf("instr = {%s}\n", in_str.c_str());
 			if (in_str[0] == '[') {
 				string lable_str = in_str.substr(1,in_str.length()-2);
@@ -156,8 +157,8 @@ public:
 
 					case 3: {
 						int left = id_of_symbol[in_str];
-						cin >> in_str;
-						cin >> in_str;
+						in >> in_str;
+						in >> in_str;
 						vector < int > tmp;
 						while (true) {
 							if (in_str == ";") {
@@ -172,7 +173,7 @@ public:
 							else {
 								tmp.push_back(id_of_symbol[in_str]);
 							}
-							cin >> in_str;
+							in >> in_str;
 						}
 						break;
 					}

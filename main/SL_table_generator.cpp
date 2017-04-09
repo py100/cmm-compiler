@@ -100,24 +100,4 @@ public:
 
 };
 
-int main() {
-	SL_grammer grammer;
-	SLgenerator generator;
-	grammer.init();
-	grammer.read_grammer("../grammer/test_grammer_1.txt");
-	printf("!!!\n");
-	grammer.show();
-	
-	vector< vector<int> >  sltable = generator.generate(grammer);	
 
-	printf("!!!\n");
-
-	for (int i = 0; i < sltable.size(); i++) {
-		for (int j = 0; j < sltable[0].size(); j++) {
-			printf("\t%d ", sltable[i][j]);
-		}
-		printf("\n");
-	}
-
-	return 0;
-}
