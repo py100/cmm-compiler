@@ -6,7 +6,6 @@ using namespace std;
 
 class Scanner{
 public:
-	typedef pair<int, string> IS;
 
 	FILE *fp_r, *fp_w;
 
@@ -15,6 +14,8 @@ public:
 	char thisWord[BUFFER_SIZE];
 
 	map<string, TokenType> table;
+
+	vector< pair<int,string> > tokens;
 
 	char nextChar() {
 		if (bufferTop > 0) {
@@ -29,8 +30,7 @@ public:
 
 	void findWord(TokenType tokenType, const char *word) {
 		fprintf(fp_w, "(%d, %s)\n", (int)tokenType, word);
-
-		result.push_back(IS((int)tokenType, string(word)));
+		tokens.push_back( {(int)tokenType, string(word)} );
 	}
 
 	// todo simplify
@@ -47,14 +47,12 @@ public:
 	}
 
 	map<string, int> signTable; int signs;
-	vector<IS> result;
 
 	Scanner() {}
 
 	void init() {
-		result.clear();
 
-		fp_r = fopen("source.c", "r");
+		fp_r = fopen("test.c", "r");
 		fp_w = fopen("words.txt", "w");
 		bufferTop = 0;
 		for (int i = 0; i < KEYWORD_NUM; i++) {
@@ -68,7 +66,8 @@ public:
 		fclose(fp_w);
 	}
 
-	void scan() {
+	vector< pair<int,string> > scan() {
+
 		char ch;
 		int signs = 0;
 		int wordLen;
@@ -343,7 +342,7 @@ public:
 		for (auto psi : signTable) {
 			fprintf(fp_w, "%s %d\n", psi.first.c_str(), psi.second);
 		}
-
+		return tokens;
 	}
 
 };

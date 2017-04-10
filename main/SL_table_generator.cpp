@@ -68,6 +68,8 @@ public:
 		cout << grammer.tot_symbol << endl;
 		vector< vector<int> > ret(closure_state.size(), vector<int>(grammer.tot_symbol, -9999));
 
+		//return ret;
+
 		// principle 1 & 2
 		for (int i = 1; i < edges.size(); i++) {
 			if (grammer.terminals.count(edges[i].c)) {

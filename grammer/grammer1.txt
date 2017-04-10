@@ -1,0 +1,80 @@
+[terminal]
+	BREAK
+	CHAR
+	CONTINUE
+	DOUBLE
+	ELSE
+	FLOAT
+	FOR
+	IF
+	INT
+	LONG
+	RETURN
+	SHORT
+	SIGNED
+	TYPEDEF
+	UNSIGNED
+	VOID
+	WHILE
+	INCLUDE
+	IDENTIFIER
+	INT_VAL
+	CHAR_VAL
+	FLOAT_VAL
+	STRING_VAL
+	*
+	/
+	%
+	+
+	-
+	<
+	>
+	=
+	++
+	--
+	<=
+	>=
+	!=
+	&&
+	||
+	==
+	!
+	OP_OTHERS
+	CONST_STR
+	(
+	)
+	[
+	]
+	{
+	}
+	'
+	"
+	;
+	:
+	#
+[nonterminal]
+	program'
+	program
+	main_declaration
+	type_specifier
+	compound_statement
+[start]
+	program'
+[production]
+	program' =>
+		program ;
+
+	program =>
+		main_declaration ;
+
+	main_declaration =>
+		type_specifier IDENTIFIER '(' ')' compound_statement ;
+
+	type_specifier =>
+		VOID
+		| CHAR
+		|	INT
+		| FLOAT ;
+
+	compound_statement =>
+		'{' '}' ;

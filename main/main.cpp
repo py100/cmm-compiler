@@ -11,17 +11,18 @@ int main() {
 	SL_grammer grammer;
 	SLgenerator generator;
 	Analyser analyser;
-	grammer.init();
-	grammer.read_grammer("../grammer/grammer_modified.txt");
-	
-	printf("read OK\n");
 
+
+	grammer.init();
+	grammer.read_grammer("../grammer/grammer1.txt");
+
+	printf("read OK\n");
 	grammer.show();
 
 	printf("show OK\n");
 
+	
 	vector< vector<int> >  sltable = generator.generate(grammer);
-
 	for (int i = 0; i < sltable.size(); i++) {
 		for (int j = 0; j < sltable[0].size(); j++) {
 			printf("\t%d ", sltable[i][j]);
@@ -32,17 +33,31 @@ int main() {
 	for (auto psi : grammer.id_of_symbol) {
 		cout << psi.first << "---" << psi.second << endl;
 	}
-
-
-	/*
+	cout << "!!!" << endl;
 
 	Scanner scanner;
-
 	cout << "begin scanner" << endl;
 	scanner.init();
 	scanner.scan();
-	scanner.close();
+	vector< pair<int,string> > tokens = scanner.scan();
 	cout << "end scanner" << endl;
+
+
+	vector<int> tmp;
+	for (auto pis : tokens) {
+		tmp.push_back(pis.first);
+	}
+
+	int out = analyser.analyse(sltable, tmp, grammer, -9999);
+
+
+	printf("out = %d\n", out);
+
+	return 0;
+}
+
+	/*
+	
 
 	string str;
 	ifstream in("in.txt");
@@ -60,5 +75,3 @@ int main() {
 		printf("output:\n%d\n", out);
 	}
 	*/
-	return 0;
-}

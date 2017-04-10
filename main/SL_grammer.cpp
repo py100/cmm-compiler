@@ -118,7 +118,7 @@ public:
 		string in_str;
 		while(in >> in_str) {
 			printf("instr = {%s}\n", in_str.c_str());
-			if (in_str[0] == '[') {
+			if (in_str[0] == '[' && in_str[in_str.length()-1] == ']') {
 				string lable_str = in_str.substr(1,in_str.length()-2);
 				label_id = -1;
 				cout << lable_str << endl;
@@ -187,6 +187,7 @@ public:
 				}
 			}
 		}
+		in.close();
 	}
 
 	Exp start_exp() {

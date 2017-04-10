@@ -4,7 +4,6 @@
 	program => 
 		main_declaration ;
 
-
 	main_declaration => 
 		type_specifier declarator compound_statement ;
 
@@ -21,7 +20,6 @@
 
 	direct_declarator => 
 		IDENTIFIER | IDENTIFIER '(' parameter_list ')' | IDENTIFIER '(' ')' ;
-
 
 
 	parameter_list => 

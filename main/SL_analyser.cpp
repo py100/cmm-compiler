@@ -59,9 +59,10 @@ public:
 			}
 			else {
 				printf("Accpted!!\n");
+				return 0;
 			}
 		}
-		return 0;
+		return -2;
 	}
 };
 
