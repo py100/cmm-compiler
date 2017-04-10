@@ -66,6 +66,7 @@ public:
 	}
 
 	void g_first(set< int >& firstset, int id) {
+		//cout << "--- id = " << id << endl;
 		if (terminals.count(id)) {
 			firstset.insert(id);
 			return;
@@ -166,7 +167,9 @@ public:
 								tmp.clear();
 								break;
 							}
-							else if (in_str == "|") {
+							if (in_str.length() == 3 && in_str[0] == '\'' && in_str[2] == '\'')
+								in_str = in_str.substr(1,1);
+							if (in_str == "|") {
 								exps.push_back(Exp(left, tmp));
 								tmp.clear();
 							}

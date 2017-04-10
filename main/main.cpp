@@ -2,17 +2,24 @@
 #include "SL_grammer.cpp"
 #include "SL_table_generator.cpp"
 #include "SL_analyser.cpp"
+#include "wordsSeperator.cpp"
+
 
 using namespace std;
 
 int main() {
-
 	SL_grammer grammer;
 	SLgenerator generator;
 	Analyser analyser;
 	grammer.init();
-	grammer.read_grammer("../grammer/test_grammer_1.txt");
+	grammer.read_grammer("../grammer/grammer_modified.txt");
+	
+	printf("read OK\n");
+
 	grammer.show();
+
+	printf("show OK\n");
+
 	vector< vector<int> >  sltable = generator.generate(grammer);
 
 	for (int i = 0; i < sltable.size(); i++) {
@@ -22,10 +29,20 @@ int main() {
 		printf("\n");
 	}
 
-
 	for (auto psi : grammer.id_of_symbol) {
 		cout << psi.first << "---" << psi.second << endl;
 	}
+
+
+	/*
+
+	Scanner scanner;
+
+	cout << "begin scanner" << endl;
+	scanner.init();
+	scanner.scan();
+	scanner.close();
+	cout << "end scanner" << endl;
 
 	string str;
 	ifstream in("in.txt");
@@ -41,8 +58,7 @@ int main() {
 		int out = analyser.analyse(sltable, tokens, grammer, -9999);
 		printf("input:\n%s\n", str.c_str());
 		printf("output:\n%d\n", out);
-
 	}
-
+	*/
 	return 0;
 }

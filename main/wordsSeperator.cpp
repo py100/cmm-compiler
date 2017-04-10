@@ -1,19 +1,11 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <map>
+#include <bits/stdc++.h>
 #include "constants.h"
 
 
 using namespace std;
 
 class Scanner{
-private:
-
+public:
 	typedef pair<int, string> IS;
 
 	FILE *fp_r, *fp_w;
@@ -41,6 +33,7 @@ private:
 		result.push_back(IS((int)tokenType, string(word)));
 	}
 
+	// todo simplify
 	bool isSpace(char now) {
 		return now == ' ' || now == '\n' || now == '\t';
 	}
@@ -53,8 +46,6 @@ private:
 		return now >= '0' && now <= '9';
 	}
 
-
-public:
 	map<string, int> signTable; int signs;
 	vector<IS> result;
 
@@ -355,8 +346,10 @@ public:
 
 	}
 
-}scanner;
+};
 
+
+/*
 int main() {
 
 	scanner.init();
@@ -367,3 +360,4 @@ int main() {
 
 	return 0;
 }
+*/
