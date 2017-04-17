@@ -106,12 +106,12 @@ struct State{
 				// printf("A:%d\nbeta:%d\nB:%d\na:%d\n", A,beta, B, a);
 
 				set<int> fset;
-
+				vector<int> vis(grammer.tot_symbol+1, 0);
 				if (beta == -1) {
-					grammer.g_first(fset, a);
+					grammer.g_first(fset, a, vis);
 				}
 				else
-					grammer.g_first(fset, beta);
+					grammer.g_first(fset, beta, vis);
 				/*
 				for (auto ttt : fset) {
 					printf("%d, ", ttt);

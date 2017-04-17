@@ -55,6 +55,20 @@ public:
 	set<int> nonterminals, terminals;
 	vector < Exp >  exps;
 	
+	string getstr(int id) {
+		if (str_of_nonterminal.count(id))
+			return str_of_nonterminal[id];
+		else
+			return str_of_terminal[id];
+	}
+
+	void showexp(int id) {
+		printf("%s -> ", getstr(exps[id].left).c_str());
+		for (int i = 0; i < exps[id].right.size(); i++) {
+			printf("%s ", getstr(exps[id].right[i]).c_str());
+		}
+		printf("\n");
+	}
 
 	void init() {
 		num_nonterminal = num_terminal =  tot_symbol = 0;
@@ -65,16 +79,24 @@ public:
 		END = -1;
 	}
 
-	void g_first(set< int >& firstset, int id) {
-		//cout << "--- id = " << id << endl;
+	void g_first(set< int >& firstset, int id, vector<int>& vis) {
+
+		string sb = "null";
+		if (str_of_terminal.count(id)) {
+			sb = str_of_terminal[id];
+		}
+		else
+			sb = str_of_nonterminal[id];
+		cout << "--- symbol = " << sb << endl;
 		if (terminals.count(id)) {
 			firstset.insert(id);
 			return;
 		}
 		else {
-			for (int i = 0; i < exps.size(); i++) {
+			for (int i = 0; i < exps.size(); i++) if (!vis[i]) {
 				if (exps[i].left == id) {
-					g_first(firstset, exps[i].right[0]);
+					vis[i] = 1;
+					g_first(firstset, exps[i].right[0], vis);
 				}
 			}
 		}
@@ -86,11 +108,12 @@ public:
 		for (auto pis : str_of_nonterminal) {
 			printf("%d -- %s\n", pis.first, pis.second.c_str());
 			set <int> tmp;
-			g_first(tmp, pis.first);
+			vector<int> vis(tot_symbol+1, 0);
+			g_first(tmp, pis.first, vis);
 
 
 			for (auto tt : tmp) {
-				printf("%d, ", tt);
+				printf("%s, ", getstr(tt).c_str());
 			}
 			printf("\n");
 		}
@@ -98,9 +121,10 @@ public:
 		for (auto pis : str_of_terminal) {
 			printf("%d -- %s\n", pis.first, pis.second.c_str());
 			set <int> tmp;
-			g_first(tmp, pis.first);
+			vector<int> vis(tot_symbol+1, 0);
+			g_first(tmp, pis.first, vis);
 			for (auto tt : tmp) {
-				printf("%d, ", tt);
+				printf("%s, ", getstr(tt).c_str());
 			}
 			printf("\n");
 		}

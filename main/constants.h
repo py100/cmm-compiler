@@ -26,7 +26,7 @@ typedef enum {
 
 	SQ, DQ,
 
-	F_COM, F_SEMIC,
+	F_CON, F_SEMIC, F_COMMA,
 
 	F_EOF
 

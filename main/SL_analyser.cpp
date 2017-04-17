@@ -36,7 +36,7 @@ public:
 			else if (table[sm][a] < 0) {
 				// reduce by table[sm][a];
 				printf("--reduced by %d--\n", -table[sm][a]);
-
+				grammer.showexp(-table[sm][a]);
 				int pos = -table[sm][a];
 				int len = grammer.exps[pos].right.size();
 				int A = grammer.exps[pos].left;

@@ -8,20 +8,22 @@
 using namespace std;
 
 int main() {
+
+	freopen("out.log", "w", stdout);
+
 	SL_grammer grammer;
 	SLgenerator generator;
 	Analyser analyser;
 
 
 	grammer.init();
-	grammer.read_grammer("../grammer/grammer1.txt");
+	grammer.read_grammer("../grammer/grammer2.txt");
 
 	printf("read OK\n");
 	grammer.show();
 
 	printf("show OK\n");
 
-	
 	vector< vector<int> >  sltable = generator.generate(grammer);
 	for (int i = 0; i < sltable.size(); i++) {
 		for (int j = 0; j < sltable[0].size(); j++) {
@@ -35,6 +37,7 @@ int main() {
 	}
 	cout << "!!!" << endl;
 
+
 	Scanner scanner;
 	cout << "begin scanner" << endl;
 	scanner.init();
@@ -46,19 +49,18 @@ int main() {
 	vector<int> tmp;
 	for (auto pis : tokens) {
 		tmp.push_back(pis.first);
+		fprintf(stderr, "%s ", grammer.getstr(pis.first).c_str());
 	}
+	fprintf(stderr, "\n");
 
 	int out = analyser.analyse(sltable, tmp, grammer, -9999);
 
-
-	printf("out = %d\n", out);
+	cerr << "out = " << out << endl;
 
 	return 0;
 }
 
 	/*
-	
-
 	string str;
 	ifstream in("in.txt");
 	while(in >> str) {

@@ -259,10 +259,12 @@ public:
 								findWord(OP_NOT, "!");
 								break;
 						}
+						break;
 
 					case '|':
 						switch(ch = nextChar()) {
 							case '|':
+								printf("wowwowo === |\n");
 								findWord(OP_OR, "||");
 								break;
 
@@ -271,6 +273,7 @@ public:
 								findWord(OP_OTHERS, "|");
 								break;
 						}
+						break;
 
 					case '&':
 						switch(ch = nextChar()) {
@@ -283,6 +286,7 @@ public:
 								findWord(OP_OTHERS, "&");
 								break;
 						}
+						break;
 
 					case '\"':
 						findWord(DQ, "\"");
@@ -324,11 +328,14 @@ public:
 					case '}':
 						findWord(R_BOUNDER, "}");
 						break;
-					case ',':
-						findWord(F_COM, ",");
+					case ':':
+						findWord(F_CON, ":");
 						break;
 					case ';':
 						findWord(F_SEMIC, ";");
+						break;
+					case ',':
+						findWord(F_COMMA, ";");
 						break;
 				}
 

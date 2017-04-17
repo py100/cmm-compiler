@@ -49,8 +49,9 @@
 	}
 	'
 	"
-	;
 	:
+	;
+	,
 	#
 [nonterminal]
 	program'
@@ -58,6 +59,31 @@
 	main_declaration
 	type_specifier
 	compound_statement
+	declaration_list
+	declaration
+	initializer
+	declaration_type
+	init_declarator_list
+	init_declarator
+	declarator
+	statement_list
+	statement
+	expression_statement
+	expression
+	assignment_expression
+	condition_expression
+	unary_expression
+	logical_or_expression
+	logical_and_expression
+	inclusive_or_expression
+	exclusive_or_expression
+	and_expression
+	equality_expression
+	relational_expression
+	additive_expression
+	multiplicative_expression
+	postfix_expression
+	primary_expression
 [start]
 	program'
 [production]
@@ -77,4 +103,107 @@
 		| FLOAT ;
 
 	compound_statement =>
-		'{' '}' ;
+		'{' '}'
+		| '{' declaration_list statement_list '}' ;
+
+	declaration_list =>
+		declaration_type
+		| declaration_list declaration_type ;
+
+	declaration_type =>
+		type_specifier init_declarator_list ';' ;
+
+	init_declarator_list =>
+		init_declarator
+		|	init_declarator_list ',' init_declarator ;
+
+	init_declarator =>
+		declarator
+		| declarator '=' initializer ;
+
+	declarator =>
+		IDENTIFIER ;
+
+	initializer =>
+		INT_VAL
+		| CHAR_VAL
+		| FLOAT_VAL
+		| STRING_VAL ;
+
+	statement_list =>
+		statement
+		| statement_list statement ;
+
+	statement =>
+		compound_statement
+		| expression_statement ;
+
+	expression_statement =>
+		';'
+		|	expression ';' ;
+
+	expression =>
+		assignment_expression
+		|	expression ',' assignment_expression ;
+
+	assignment_expression =>
+		condition_expression
+		| unary_expression '=' assignment_expression ;
+
+	condition_expression =>
+		logical_and_expression
+		|	logical_or_expression || logical_and_expression ;
+
+	logical_and_expression =>
+		inclusive_or_expression
+		| logical_and_expression && inclusive_or_expression ;
+
+	inclusive_or_expression =>
+		exclusive_or_expression
+		| inclusive_or_expression '|' exclusive_or_expression ;
+
+	exclusive_or_expression =>
+		and_expression
+		| exclusive_or_expression '^' and_expression ;
+
+	and_expression =>
+		equality_expression
+		|	and_expression '&' equality_expression ;
+
+	equality_expression =>
+		relational_expression
+		| equality_expression == relational_expression
+		|	equality_expression != relational_expression ;
+
+	relational_expression =>
+		additive_expression
+   	| relational_expression '<' additive_expression
+   	| relational_expression '>' additive_expression
+   	| relational_expression <= additive_expression
+   	| relational_expression >= additive_expression ;
+
+  additive_expression =>
+  	multiplicative_expression
+  	| additive_expression '+' multiplicative_expression
+  	| additive_expression '-' multiplicative_expression ;
+
+  multiplicative_expression =>
+   	postfix_expression
+   	| multiplicative_expression '*' postfix_expression
+   	| multiplicative_expression '/' postfix_expression
+   	| multiplicative_expression '%' postfix_expression ;
+
+	postfix_expression =>
+  	primary_expression
+   	| postfix_expression '[' expression ']'
+   	| postfix_expression ++
+   	| postfix_expression -- ;
+
+  primary_expression =>
+  	IDENTIFIER
+   	| INT_VAL
+   	| '(' expression ')' ;
+
+  unary_expression =>
+  	postfix_expression ;
+
