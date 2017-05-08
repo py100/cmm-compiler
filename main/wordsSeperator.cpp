@@ -115,6 +115,7 @@ public:
 						else {
 							isReal = true;
 							thisWord[wordLen++] = ch;
+              ch = nextChar();
 						}
 					}
 					else {

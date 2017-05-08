@@ -212,6 +212,9 @@ public:
 			}
 		}
 		in.close();
+    for (int i = 0; i < exps.size(); i++) {
+      printf("[%d]", i); showexp(i);
+    }
 	}
 
 	Exp start_exp() {

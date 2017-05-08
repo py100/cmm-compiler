@@ -14,7 +14,7 @@ int main() {
 
 
 	grammer.init();
-	grammer.read_grammer("../grammer/grammer2.txt");
+	grammer.read_grammer("../grammer/test.txt");
 
 	printf("read OK\n");
 	grammer.show();
@@ -30,9 +30,14 @@ int main() {
 		printf("\n");
 	}
 
+
+	return 0;
+
 	for (auto psi : grammer.id_of_symbol) {
 		cout << psi.first << "---" << psi.second << endl;
 	}
+
+
 	cout << "!!!" << endl;
 
 	vector<int> tmp;
