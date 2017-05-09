@@ -29,7 +29,6 @@ int main() {
       fscanf(fin, "%d", &sltable[i][j]);
     }
   }
-
   /*
    * below generate sltable, pregenerate
    *
@@ -43,11 +42,11 @@ int main() {
 		}
 		fprintf(fp, "\n");
 	}
-  */
 	for (auto psi : grammer.id_of_symbol) {
 		cout << psi.first << "---" << psi.second << endl;
 	}
 	cout << "!!!" << endl;
+  */
 
 	Scanner scanner;
 	cout << "begin scanner" << endl;

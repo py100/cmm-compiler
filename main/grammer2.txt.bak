@@ -127,8 +127,7 @@
 		| declarator '=' initializer ;
 
 	declarator =>
-		IDENTIFIER 
-    | IDENTIFIER '[' INT_VAL ']' ;
+		IDENTIFIER ;
 
 	initializer =>
 		INT_VAL
@@ -157,7 +156,6 @@
 	assignment_expression =>
 		initializer
 		| IDENTIFIER '=' assignment_expression
-    | IDENTIFIER '[' expression ']' '=' assignment_expression
 		|	logical_or_expression ;
 
 	logical_or_expression =>
@@ -193,7 +191,6 @@
 
   unary_expression =>
   	IDENTIFIER
-    | IDENTIFIER '[' expression ']'
   	|	initializer ;
 
   iteration_statement =>

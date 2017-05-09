@@ -140,52 +140,55 @@ instr = {selection_statement}
 [16]init_declarator -> declarator 
 [17]init_declarator -> declarator = initializer 
 [18]declarator -> IDENTIFIER 
-[19]initializer -> INT_VAL 
-[20]initializer -> CHAR_VAL 
-[21]initializer -> FLOAT_VAL 
-[22]initializer -> STRING_VAL 
-[23]statement_list -> statement 
-[24]statement_list -> statement_list statement 
-[25]statement -> compound_statement 
-[26]statement -> expression_statement 
-[27]statement -> iteration_statement 
-[28]statement -> jump_statement 
-[29]statement -> selection_statement 
-[30]expression_statement -> ; 
-[31]expression_statement -> expression ; 
-[32]expression -> assignment_expression 
-[33]assignment_expression -> initializer 
-[34]assignment_expression -> IDENTIFIER = assignment_expression 
-[35]assignment_expression -> logical_or_expression 
-[36]logical_or_expression -> logical_and_expression 
-[37]logical_or_expression -> logical_or_expression || logical_and_expression 
-[38]logical_and_expression -> equality_expression 
-[39]logical_and_expression -> logical_and_expression && equality_expression 
-[40]equality_expression -> relational_expression 
-[41]equality_expression -> equality_expression == relational_expression 
-[42]equality_expression -> equality_expression != relational_expression 
-[43]relational_expression -> additive_expression 
-[44]relational_expression -> relational_expression < additive_expression 
-[45]relational_expression -> relational_expression > additive_expression 
-[46]relational_expression -> relational_expression <= additive_expression 
-[47]relational_expression -> relational_expression >= additive_expression 
-[48]additive_expression -> multiplicative_expression 
-[49]additive_expression -> additive_expression + multiplicative_expression 
-[50]additive_expression -> additive_expression - multiplicative_expression 
-[51]multiplicative_expression -> unary_expression 
-[52]multiplicative_expression -> multiplicative_expression * unary_expression 
-[53]multiplicative_expression -> multiplicative_expression / unary_expression 
-[54]multiplicative_expression -> multiplicative_expression % unary_expression 
-[55]unary_expression -> IDENTIFIER 
-[56]unary_expression -> initializer 
-[57]iteration_statement -> WHILE ( expression ) compound_statement 
-[58]iteration_statement -> FOR ( expression_statement expression_statement expression ) compound_statement 
-[59]jump_statement -> CONTINUE ; 
-[60]jump_statement -> BREAK ; 
-[61]jump_statement -> RETURN ; 
-[62]jump_statement -> RETURN expression ; 
-[63]selection_statement -> IF ( expression ) statement 
-[64]selection_statement -> IF ( expression ) statement ELSE statement 
+[19]declarator -> IDENTIFIER [ INT_VAL ] 
+[20]initializer -> INT_VAL 
+[21]initializer -> CHAR_VAL 
+[22]initializer -> FLOAT_VAL 
+[23]initializer -> STRING_VAL 
+[24]statement_list -> statement 
+[25]statement_list -> statement_list statement 
+[26]statement -> compound_statement 
+[27]statement -> expression_statement 
+[28]statement -> iteration_statement 
+[29]statement -> jump_statement 
+[30]statement -> selection_statement 
+[31]expression_statement -> ; 
+[32]expression_statement -> expression ; 
+[33]expression -> assignment_expression 
+[34]assignment_expression -> initializer 
+[35]assignment_expression -> IDENTIFIER = assignment_expression 
+[36]assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+[37]assignment_expression -> logical_or_expression 
+[38]logical_or_expression -> logical_and_expression 
+[39]logical_or_expression -> logical_or_expression || logical_and_expression 
+[40]logical_and_expression -> equality_expression 
+[41]logical_and_expression -> logical_and_expression && equality_expression 
+[42]equality_expression -> relational_expression 
+[43]equality_expression -> equality_expression == relational_expression 
+[44]equality_expression -> equality_expression != relational_expression 
+[45]relational_expression -> additive_expression 
+[46]relational_expression -> relational_expression < additive_expression 
+[47]relational_expression -> relational_expression > additive_expression 
+[48]relational_expression -> relational_expression <= additive_expression 
+[49]relational_expression -> relational_expression >= additive_expression 
+[50]additive_expression -> multiplicative_expression 
+[51]additive_expression -> additive_expression + multiplicative_expression 
+[52]additive_expression -> additive_expression - multiplicative_expression 
+[53]multiplicative_expression -> unary_expression 
+[54]multiplicative_expression -> multiplicative_expression * unary_expression 
+[55]multiplicative_expression -> multiplicative_expression / unary_expression 
+[56]multiplicative_expression -> multiplicative_expression % unary_expression 
+[57]unary_expression -> IDENTIFIER 
+[58]unary_expression -> IDENTIFIER [ expression ] 
+[59]unary_expression -> initializer 
+[60]iteration_statement -> WHILE ( expression ) compound_statement 
+[61]iteration_statement -> FOR ( expression_statement expression_statement expression ) compound_statement 
+[62]jump_statement -> CONTINUE ; 
+[63]jump_statement -> BREAK ; 
+[64]jump_statement -> RETURN ; 
+[65]jump_statement -> RETURN expression ; 
+[66]selection_statement -> IF ( expression ) statement 
+[67]selection_statement -> IF ( expression ) statement ELSE statement 
 read OK
 non_terminals: 33
 terminals: 54
@@ -267,6 +270,7 @@ CHAR, FLOAT, INT, VOID,
 --- symbol = init_declarator
 --- symbol = declarator
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = declarator
 --- symbol = init_declarator_list
 IDENTIFIER, 
@@ -274,10 +278,12 @@ IDENTIFIER,
 --- symbol = init_declarator
 --- symbol = declarator
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = declarator
 IDENTIFIER, 
 65 -- declarator
 --- symbol = declarator
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 IDENTIFIER, 
 66 -- statement_list
@@ -298,6 +304,7 @@ IDENTIFIER,
 --- symbol = FLOAT_VAL
 --- symbol = STRING_VAL
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = logical_or_expression
 --- symbol = logical_and_expression
 --- symbol = equality_expression
@@ -305,6 +312,7 @@ IDENTIFIER,
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = multiplicative_expression
@@ -350,6 +358,7 @@ BREAK, CONTINUE, FOR, IF, RETURN, WHILE, IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VA
 --- symbol = FLOAT_VAL
 --- symbol = STRING_VAL
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = logical_or_expression
 --- symbol = logical_and_expression
 --- symbol = equality_expression
@@ -357,6 +366,7 @@ BREAK, CONTINUE, FOR, IF, RETURN, WHILE, IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VA
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = multiplicative_expression
@@ -395,6 +405,7 @@ BREAK, CONTINUE, FOR, IF, RETURN, WHILE, IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VA
 --- symbol = FLOAT_VAL
 --- symbol = STRING_VAL
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = logical_or_expression
 --- symbol = logical_and_expression
 --- symbol = equality_expression
@@ -402,6 +413,7 @@ BREAK, CONTINUE, FOR, IF, RETURN, WHILE, IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VA
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = multiplicative_expression
@@ -427,6 +439,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL, ;,
 --- symbol = FLOAT_VAL
 --- symbol = STRING_VAL
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = logical_or_expression
 --- symbol = logical_and_expression
 --- symbol = equality_expression
@@ -434,6 +447,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL, ;,
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = multiplicative_expression
@@ -458,6 +472,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = FLOAT_VAL
 --- symbol = STRING_VAL
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = logical_or_expression
 --- symbol = logical_and_expression
 --- symbol = equality_expression
@@ -465,6 +480,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = multiplicative_expression
@@ -487,6 +503,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 72 -- unary_expression
 --- symbol = unary_expression
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
 --- symbol = CHAR_VAL
@@ -501,6 +518,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
@@ -528,6 +546,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = additive_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
@@ -563,6 +582,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
 --- symbol = CHAR_VAL
@@ -586,6 +606,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
 --- symbol = CHAR_VAL
@@ -606,6 +627,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
 --- symbol = IDENTIFIER
+--- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
 --- symbol = CHAR_VAL
@@ -620,6 +642,7 @@ IDENTIFIER, INT_VAL, CHAR_VAL, FLOAT_VAL, STRING_VAL,
 81 -- multiplicative_expression
 --- symbol = multiplicative_expression
 --- symbol = unary_expression
+--- symbol = IDENTIFIER
 --- symbol = IDENTIFIER
 --- symbol = initializer
 --- symbol = INT_VAL
@@ -896,6 +919,10 @@ CONST_STR,
  0---1
 ======================
 
+65 => 18 44 19 45 
+ 0---1
+======================
+
 61 => 19 
  0---1
 ======================
@@ -957,6 +984,10 @@ CONST_STR,
 ======================
 
 70 => 18 30 70 
+ 0---1
+======================
+
+70 => 18 44 69 45 30 70 
  0---1
 ======================
 
@@ -1044,6 +1075,10 @@ CONST_STR,
  0---1
 ======================
 
+72 => 18 44 69 45 
+ 0---1
+======================
+
 72 => 61 
  0---1
 ======================
@@ -1080,94 +1115,6 @@ CONST_STR,
  0---1
 ======================
 show OK
-!---39
-!=---35
-"---49
-#---53
-%---25
-&&---36
-'---48
-(---42
-)---43
-*---23
-+---26
-++---31
-,---52
-----27
------32
-/---24
-:---50
-;---51
-<---28
-<=---33
-=---30
-==---38
->---29
->=---34
-BREAK---0
-CHAR---1
-CHAR_VAL---20
-CONST_STR---41
-CONTINUE---2
-DOUBLE---3
-ELSE---4
-FLOAT---5
-FLOAT_VAL---21
-FOR---6
-IDENTIFIER---18
-IF---7
-INCLUDE---17
-INT---8
-INT_VAL---19
-LONG---9
-OP_OTHERS---40
-RETURN---10
-SHORT---11
-SIGNED---12
-STRING_VAL---22
-TYPEDEF---13
-UNSIGNED---14
-VOID---15
-WHILE---16
-[---44
-]---45
-additive_expression---80
-and_expression---77
-assignment_expression---70
-compound_statement---58
-condition_expression---71
-declaration---60
-declaration_list---59
-declaration_type---62
-declarator---65
-equality_expression---78
-exclusive_or_expression---76
-expression---69
-expression_statement---68
-inclusive_or_expression---75
-init_declarator---64
-init_declarator_list---63
-initializer---61
-iteration_statement---84
-jump_statement---85
-logical_and_expression---74
-logical_or_expression---73
-main_declaration---56
-multiplicative_expression---81
-postfix_expression---82
-primary_expression---83
-program---55
-program'---54
-relational_expression---79
-selection_statement---86
-statement---67
-statement_list---66
-type_specifier---57
-unary_expression---72
-{---46
-||---37
-}---47
-!!!
 begin scanner
 i
  
@@ -1180,23 +1127,137 @@ m
 
 i
  
+s
+ 
+=
+ 
+0
+,
+ 
 a
+[
+5
+]
+;
+
+
+i
+ 
+i
 ,
  
-b
-,
+j
+;
+
+
+a
+[
+0
+]
  
-c
+=
+ 
+0
+;
+
+
+a
+[
+1
+]
+ 
+=
+ 
+1
+;
+
+
+a
+[
+2
+]
+ 
+=
+ 
+2
+;
+
+
+a
+[
+3
+]
+ 
+=
+ 
+3
+;
+
+
+a
+[
+4
+]
+ 
+=
+ 
+4
+;
+
+
+i
+ 
+=
+ 
+0
+;
+
+
+w
+ 
+(
+i
+ 
+<
+ 
+5
+)
+ 
+{
+
+
+i
+ 
+=
+ 
+i
+ 
++
+ 
+1
 ;
 
 
 }
 
 
+}
+
+
 end scanner
-8--18--42--43--46--8--18--52--18--52--18--51--47--53--53--
+8--18--42--43--46--8--18--30--19--52--18--44--19--45--51--8--18--52--18--51--18--44--19--45--30--19--51--18--44--19--45--30--19--51--18--44--19--45--30--19--51--18--44--19--45--30--19--51--18--44--19--45--30--19--51--18--30--19--51--16--42--18--28--19--43--46--18--30--18--26--19--51--47--47--53--53--
 END = 53
 type_specifier -> INT 
+type_specifier -> INT 
+declarator -> IDENTIFIER 
+initializer -> INT_VAL 
+init_declarator -> declarator = initializer 
+init_declarator_list -> init_declarator 
+declarator -> IDENTIFIER [ INT_VAL ] 
+init_declarator -> declarator 
+init_declarator_list -> init_declarator_list , init_declarator 
+declaration_type -> type_specifier init_declarator_list ; 
+declaration_list -> declaration_type 
 type_specifier -> INT 
 declarator -> IDENTIFIER 
 init_declarator -> declarator 
@@ -1204,12 +1265,178 @@ init_declarator_list -> init_declarator
 declarator -> IDENTIFIER 
 init_declarator -> declarator 
 init_declarator_list -> init_declarator_list , init_declarator 
-declarator -> IDENTIFIER 
-init_declarator -> declarator 
-init_declarator_list -> init_declarator_list , init_declarator 
 declaration_type -> type_specifier init_declarator_list ; 
-declaration_list -> declaration_type 
-compound_statement -> { declaration_list } 
+declaration_list -> declaration_list declaration_type 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement_list statement 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement_list statement 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement_list statement 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER [ expression ] = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement_list statement 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement_list statement 
+unary_expression -> IDENTIFIER 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> additive_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+relational_expression -> relational_expression < additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+expression -> assignment_expression 
+unary_expression -> IDENTIFIER 
+multiplicative_expression -> unary_expression 
+additive_expression -> multiplicative_expression 
+initializer -> INT_VAL 
+unary_expression -> initializer 
+multiplicative_expression -> unary_expression 
+additive_expression -> additive_expression + multiplicative_expression 
+relational_expression -> additive_expression 
+equality_expression -> relational_expression 
+logical_and_expression -> equality_expression 
+logical_or_expression -> logical_and_expression 
+assignment_expression -> logical_or_expression 
+assignment_expression -> IDENTIFIER = assignment_expression 
+expression -> assignment_expression 
+expression_statement -> expression ; 
+statement -> expression_statement 
+statement_list -> statement 
+compound_statement -> { statement_list } 
+iteration_statement -> WHILE ( expression ) compound_statement 
+statement -> iteration_statement 
+statement_list -> statement_list statement 
+compound_statement -> { declaration_list statement_list } 
 main_declaration -> type_specifier IDENTIFIER ( ) compound_statement 
 program -> main_declaration 
 !!!Accpted!!!

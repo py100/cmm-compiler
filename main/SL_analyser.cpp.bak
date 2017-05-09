@@ -13,39 +13,6 @@ public:
   int lineCount;
   struct Command {
     int cmdType;
-    string addr1, addr2, addr3;
-    string op;
-    Command(int _cmdType, string a1, string a2, string a3, string _op) {
-      cmdType = _cmdType;
-      addr1 = a1;
-      addr2 = a2;
-      addr3 = a3;
-      op = _op;
-    }
-    Command(){}
-    string tostr() {
-      if (op == "is true") {
-        return "if " + addr1 + " jmp " + addr2;
-      }
-      else if (op == "=") {
-        return addr1 + " = " + addr2;
-      }
-      else if (op == "<" || op == ">" || op == "<=" || op == ">=") {
-        return "if "+addr1 + " " + op + " " + addr2 + " jmp " + addr3;
-      }
-      else if (op == "jmp") {
-        return "jmp " + addr1;
-      }
-      else if (op.length() == 1){
-        return addr1 + " = " + addr2 + " " + op + " " + addr3;
-      }
-      return addr1 + ":\t" + addr2 + "\t" + addr3 + "\t" + "{" + op + "}";
-      //return addr1+" = "+addr2+op+addr3;
-    }
-  };
-  /*
-  struct Command {
-    int cmdType;
     string arg1, op, arg2, result;
     string tostr() {
       string _result = result;
@@ -67,7 +34,6 @@ public:
     }
     Command(){}
   };
-  */
   struct Node {
     // for value : 0:int 1:char 2:float 3:string 4:void
     // for statement : 
@@ -112,10 +78,10 @@ public:
     }
   };
   vector< Command > commands;
-  Command gencode(int cmdid, string addr1, string addr2, string addr3, string op) {
-    return Command(cmdid, addr1, addr2, addr3, op);
+  Command gencode(int cmdid, string result, string arg1, string op, string arg2) {
+    return Command(cmdid, result, arg1, op, arg2);
     //commands.push_back(Command(cmdid, result, arg1, op, arg2));
-    fprintf(stderr, "gencode : %d -- %s, %s, %s, %s\n", cmdid, addr1.c_str(), addr2.c_str(), addr3.c_str(), op.c_str());
+    fprintf(stderr, "gencode : %d -- %s, %s, %s, %s\n", cmdid, result.c_str(), arg1.c_str(), op.c_str(), arg2.c_str());
   }
 
   string ntos(int n) {
@@ -212,7 +178,6 @@ public:
         for (auto cmd : stack_node[1].cmds) {
           fprintf(fp_parser, "%s\n", cmd.tostr().c_str());
         }
-        fprintf(fp_parser, "END\n");
         fclose(fp_parser);
 				return 0;
 			}
@@ -225,28 +190,35 @@ public:
     switch(id) {
       case 0:
         node.signName = "program'";
+        node.cmds = stack_node[top].cmds;
         break;
       case 1:
         node.signName = "program";
+        node.cmds = stack_node[top].cmds;
         break;
       case 2:
         node.signName = "main_declaration";
+        node.cmds = stack_node[top].cmds;
         break;
       case 3:
         node.signName = "type_specifier";
         node.val_type = 4;
+        node.cmds = stack_node[top].cmds;
         break;
       case 4:
         node.signName = "type_specifier";
         node.val_type = 1;
+        node.cmds = stack_node[top].cmds;
         break;
       case 5:
         node.signName = "type_specifier";
         node.val_type = 0;
+        node.cmds = stack_node[top].cmds;
         break;
       case 6:
         node.signName = "type_specifier";
         node.val_type = 2;
+        node.cmds = stack_node[top].cmds;
         break;
       case 7: case 8: case 9: case 10:
         node.signName = "compound_statement";
@@ -266,6 +238,12 @@ public:
       case 13:
         node.vars = stack_node[top-1].vars;
         node.val_type = stack_node[top-2].val_type;
+        /*
+        for (auto var : node.vars) {
+          fprintf(stderr, "{%s}, ", var.c_str());
+        }
+        fprintf(stderr, "\n");
+        */
         //updateSignTable(node);
         break;
       case 14:
@@ -277,83 +255,65 @@ public:
         break;
       case 16:
         node.signName = stack_node[top].signName;
+        node.vars.push_back(stack_node[top].signName);
         break;
       case 17:
         node.signName = stack_node[top-2].signName;
         node.val_type = stack_node[top].val_type;
         node.val = stack_node[top-2].val;
-        node.vars = stack_node[top-2].vars;
+        node.vars.push_back(stack_node[top-2].signName);
         break;
-      case 18:
-        node.vars.push_back(stack_node[top].signName);
-        break;
-      case 19:
-        node.signName = stack_node[top-3].signName 
-          +"["+stack_node[top-1].val+"]";
-        node.vars.push_back(node.signName);
-        break;
-      case 20: case 21: case 22: case 23:
+      case 19: case 20: case 21: case 22:
         node = stack_node[top];
         break;
-      case 24:
+      case 23:
         node.signName = "stm_list";
         node.cmds = stack_node[top].cmds;
         break;
-      case 25:
+      case 24:
         node.signName = "stm_list";
         node.cmds = stack_node[top-1].cmds;
         for (auto cmd : stack_node[top].cmds) {
           node.cmds.push_back(cmd);
         }
         break;
-      case 26: case 27: case 28: case 29: case 30:
+      case 25: case 26: case 27: case 28: case 29:
         node.signName = "statement";
         node.val_type = stack_node[top].val_type;
         node.cmds = stack_node[top].cmds;
         break;
-      case 31: case 32:
+      case 30: case 31:
         node.signName = "exp_sts";
         node.val_type = 1;
         node.val = stack_node[top].val;
-        if (id == 32) {
+        if (id == 31) {
           node.cmds = stack_node[top-1].cmds;
         }
         break;
-      case 33: {
+      case 32: {
         node.signName = stack_node[top].signName;
         node.val_type = stack_node[top].val_type;
         node.val = stack_node[top].val;
         node.cmds = stack_node[top].cmds;
         break;
       }
-      case 34:
+      case 33:
         node = stack_node[top];
         break;
-      case 35:
+      case 34:
         node.signName = stack_node[top-2].signName;
         node.val = stack_node[top].val;
         node.val_type = stack_node[top].val_type;
+        
         node.cmds = stack_node[top].cmds;
-        node.cmds.push_back(gencode(35, node.signName,
-            stack_node[top].signName, "null", "="));
-        break;
-      case 36:
-        node.cmds = stack_node[top].cmds;
-        for (auto cmd : stack_node[top-3].cmds) {
-          node.cmds.push_back(cmd);
-        }
-        node.signName = stack_node[top-5].signName + "[" + stack_node[top-3].signName + "]";
-        node.val_type = stack_node[top-5].val_type;
-        node.cmds.push_back(gencode(
-              36,
-              node.signName,
-              stack_node[top].signName,
-              "null",
-              "="
-              ));
+        node.cmds.push_back(gencode(34, stack_node[top-2].signName,
+            stack_node[top].signName, "null", "null"));
+
+        //gencode(34, stack_node[top-2].signName, 
+            //stack_node[top].signName, "null", "null");
         break;
       /*
-      case 43: case 44:
+      case 41: case 42:
         node.signName = getTempName();
         node.val_type = stack_node[top-2].val_type;
         node.val = stack_node[top].val;
@@ -366,7 +326,7 @@ public:
               stack_node[top].signName)
             );
         break;
-      case 46: case 47: case 48: case 49: 
+      case 44: case 45: case 46: case 47: 
         node.signName = getTempName();
         node.val_type = stack_node[top-2].val_type;
         node.val = stack_node[top].val;
@@ -380,155 +340,153 @@ public:
             );
         break;
       */
-      case 46: case 47: case 48: case 49: {
+      /*
+       * -3 : <
+       * -4 : >
+       * -5 : <=
+       * -6 : >= 
+       *
+       */
+      case 44: {
         node.cmds = stack_node[top].cmds;
-        for (auto cmd : stack_node[top-2].cmds) {
-          node.cmds.push_back(cmd);
-        }
         node.cmds.push_back(Command(
-              0,
-              stack_node[top-2].signName,
-              stack_node[top].signName,
+              -3,
               ntos(3),
-              stack_node[top-1].signName
+              stack_node[top-2].signName,
+              stack_node[top-1].signName,
+              stack_node[top].signName
               ));
         string tempname = getTempName();
         node.cmds.push_back(Command(
-              0,
+              -1,
               tempname,
-              "0",
+              ntos(0),
               "null",
-              "="
+              "null"
               ));
         node.cmds.push_back(Command(
-              0,
+              -1,
+              "jmp",
               ntos(2),
               "null",
-              "null",
-              "jmp"
+              "null"
               ));
         node.cmds.push_back(Command(
-              0,
+              -1,
               tempname,
-              "1",
+              ntos(1),
               "null",
-              "="
+              "null"
               ));
         node.signName = tempname;
         break;
       }
-      case 51: case 52:
+      case 48:
+        node = stack_node[top];
+        break;
+      case 49: case 50:
         //node.signName = "additive";
         node.signName = getTempName();
         node.val_type = stack_node[top-2].val_type;
         node.val = stack_node[top].val;
         node.cmds = stack_node[top].cmds;
-        for (auto cmd : stack_node[top-2].cmds) {
-          node.cmds.push_back(cmd);
-        }
-        node.cmds.push_back(gencode(
-              id,
-              node.signName, 
-              stack_node[top-2].signName, 
-              stack_node[top].signName, 
-              stack_node[top-1].signName));
+        node.cmds.push_back(gencode(id, node.signName, 
+            stack_node[top-2].signName, 
+            stack_node[top-1].signName, 
+            stack_node[top].signName));
         break;
-      case 54: case 55: case 56:
+      case 51:
+        node = stack_node[top];
+        break;
+      case 52: case 53: case 54:
         //node.signName = "multive";
         node.signName = getTempName();
         node.val_type = stack_node[top-2].val_type;
         node.val = stack_node[top].val;
         node.cmds = stack_node[top].cmds;
-        for (auto cmd : stack_node[top-2].cmds) {
-          node.cmds.push_back(cmd);
-        }
-        node.cmds.push_back(gencode(
-              id,
-              node.signName, 
-              stack_node[top-2].signName,
-              stack_node[top].signName,
-              stack_node[top-1].signName));
+        node.cmds.push_back(gencode(id, node.signName, 
+            stack_node[top-2].signName,
+            stack_node[top-1].signName,
+            stack_node[top].signName));
         break;
-      case 58:
-        node.cmds = stack_node[top-1].cmds;
-        node.val_type = stack_node[top-3].val_type;
-        node.signName = getTempName();
-        node.cmds.push_back(gencode(
-              id,
-              node.signName,
-              stack_node[top-3].signName,
-              stack_node[top-1].signName,
-              "addr[]"
-              ));
+      case 55: case 56:
+        node = stack_node[top];
         break;
-      case 60:
+      case 57:
         node.cmds = stack_node[top-2].cmds;
-        node.cmds.push_back(Command(
-              0,
-              stack_node[top-2].signName,
+        node.cmds.push_back(Command(-3,
               ntos(2),
-              "null",
-              "is true"
+              stack_node[top-2].signName,
+              "is",
+              "true"
               ));
-        node.cmds.push_back(Command( 
-              -1,
+        node.cmds.push_back(Command( -1,
+              "jmp",
               ntos(stack_node[top].cmds.size()+2),
               "null",
-              "null",
-              "jmp"
-              ));
+              "null"));
         for (auto cmd :stack_node[top].cmds) {
           node.cmds.push_back(cmd);
         }
-        node.cmds.push_back(Command( 
-              0,
+        node.cmds.push_back(Command( -2,
+              "jmp",
               ntos(-stack_node[top].cmds.size() - stack_node[top-2].cmds.size() - 2),
               "null",
-              "null",
-              "jmp"
-              ));
+              "null"));
         break;
-      case 66:
+      case 63:
         node.cmds = stack_node[top-2].cmds;
-        node.cmds.push_back(Command(
-              0, 
+        node.cmds.push_back(Command( -1, 
+              "if not",
               stack_node[top-2].signName,
-              ntos(2),
-              "null",
-              "is true"
-              ));
-        node.cmds.push_back(Command(
-              0,
-              ntos(stack_node[top].cmds.size()+1),
-              "null",
-              "null",
-              "jmp"
-              ));
+              "jmp",
+              ntos(stack_node[top].cmds.size()+1)));
         for (auto cmd : stack_node[top].cmds) {
           node.cmds.push_back(cmd);
         }
         break;
-      case 67:
+      case 64:
         node.cmds = stack_node[top-4].cmds;
         node.cmds.push_back(Command(
-              0,
-              stack_node[top-4].signName,
+              -3,
               ntos(2),
-              "null",
-              "is true")
+              stack_node[top-4].signName,
+              "is",
+              "true")
             );
         node.cmds.push_back(Command(
-              0,
-              ntos(stack_node[top-2].cmds.size()+2),
+              -1,
+              "jmp",
+              ntos(stack_node[top-2].cmds.size()+1),
               "null",
-              "null",
-              "jmp"
+              "null"
               ));
         for (auto cmd : stack_node[top-2].cmds) {
           node.cmds.push_back(cmd);
         }
         node.cmds.push_back(Command(
-              0,
+              -1,
+              "jmp",
+              ntos(stack_node[top].cmds.size()+1),
+              "null",
+              "null"));
+        for (auto cmd : stack_node[top].cmds) {
+          node.cmds.push_back(cmd);
+        }
+        break;
+      /*
+      case 64:
+        node.cmds = stack_node[top-4].cmds;
+        node.cmds.push_back(Command( -1, 
+              "if not",
+              stack_node[top-4].signName,
+              "jmp",
+              ntos(stack_node[top-2].cmds.size()+2)
+              ));
+        for (auto cmd : stack_node[top-2].cmds) {
+          node.cmds.push_back(cmd);
+        }
+        node.cmds.push_back(Command( -2, 
               "jmp",
               ntos(stack_node[top].cmds.size()+1),
               "null",
@@ -538,6 +496,7 @@ public:
           node.cmds.push_back(cmd);
         }
         break;
+      */
       default:
         node = stack_node[top];
         break;
